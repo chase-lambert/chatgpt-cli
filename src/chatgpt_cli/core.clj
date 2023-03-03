@@ -1,7 +1,7 @@
 (ns chatgpt-cli.core
   (:require 
-    [clj-http.client    :as client]
-    [clojure.data.json  :as json])
+    [clj-http.client   :as client]
+    [clojure.data.json :as json])
   (:gen-class))
 
 (def api-key (System/getenv "OPENAI_API_KEY"))
@@ -10,15 +10,14 @@
                           :content "You are a helpful assistant"}]))
 
 (defn request [prompt]
-  (let [messages (swap! messages conj {:role    "user"
-                                       :content prompt})]
+  (let [_ (swap! messages conj {:role    "user"
+                                :content prompt})]
     (client/post "https://api.openai.com/v1/chat/completions"
                  {:headers {"Content-Type" "application/json"
                             "Authorization" (str "Bearer " api-key)}
                   :body    (json/write-str
-                              {:model    "gpt-3.5-turbo"
-                               :messages @messages})})))
-
+                             {:model    "gpt-3.5-turbo"
+                              :messages @messages})})))
 
 (defn response [resp]
   (let [resp    (json/read-str (:body resp) :key-fn keyword)
