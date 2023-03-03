@@ -21,17 +21,17 @@
 
 (defn response [resp]
   (let [resp    (json/read-str (:body resp) :key-fn keyword)
-        content (get-in resp [:choices 0 :message :content])]
-    (swap! messages conj {:role    "assistant"
-                          :content content})))
+        content (get-in resp [:choices 0 :message :content])
+        _       (swap! messages conj {:role    "assistant"
+                                      :content content})]
+    content))
 
 (defn -main []
   (println "Welcome to ChatGPT CLI")
   (print "Please enter a prompt: ")
   (flush)
   (loop [prompt (read-line)]
-    (let [resp (response (request prompt))
-          resp (:content (last @messages))]
+    (let [resp (response (request prompt))]
       (println)
       (println "ChatGPT response:" resp)
       (println)

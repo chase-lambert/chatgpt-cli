@@ -1,6 +1,6 @@
 ## Small little cli app using the new OpenAI chatGPT API.
 
-To run use 'clojure -M -m chatgpt-cli.core' or build an 
+To run use 'clj -M -m chatgpt-cli.core' or build an 
 uberjar with `clj -T:build uber` and run with 
 `java -jar target/chatgpt-cli-standalone.jar`
 
