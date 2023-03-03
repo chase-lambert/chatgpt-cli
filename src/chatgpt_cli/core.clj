@@ -11,13 +11,13 @@
 
 (defn request [prompt]
   (let [messages (swap! messages conj {:role    "user"
-                                       :content prompt})])
-  (client/post "https://api.openai.com/v1/chat/completions"
-               {:headers {"Content-Type" "application/json"
-                          "Authorization" (str "Bearer " api-key)}
-                :body    (json/write-str
-                            {:model    "gpt-3.5-turbo"
-                             :messages @messages})}))
+                                       :content prompt})]
+    (client/post "https://api.openai.com/v1/chat/completions"
+                 {:headers {"Content-Type" "application/json"
+                            "Authorization" (str "Bearer " api-key)}
+                  :body    (json/write-str
+                              {:model    "gpt-3.5-turbo"
+                               :messages @messages})})))
 
 
 (defn response [resp]
