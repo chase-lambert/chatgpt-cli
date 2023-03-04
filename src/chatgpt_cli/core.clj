@@ -10,14 +10,14 @@
                           :content "You are a helpful assistant"}]))
 
 (defn request [prompt]
-  (let [_ (swap! messages conj {:role    "user"
-                                :content prompt})]
+    (swap! messages conj {:role    "user"
+                          :content prompt})
     (client/post "https://api.openai.com/v1/chat/completions"
                  {:headers {"Content-Type" "application/json"
                             "Authorization" (str "Bearer " api-key)}
                   :body    (json/write-str
                              {:model    "gpt-3.5-turbo"
-                              :messages @messages})})))
+                              :messages @messages})}))
 
 (defn response [resp]
   (let [resp    (json/read-str (:body resp) :key-fn keyword)
